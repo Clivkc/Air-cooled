@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh - Hans">
+<head>
+    <meta charset="utf - 8" />
+    <meta http - equiv="X - UA - Compatible" content="IE = edge" />
+    <meta name="viewport" content="width = device - width, initial - scale = 1.0" />
+    <title>GitHub 文件加速</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 全局样式 */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* 标题样式 */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 32px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation: fadeInDown 0.5s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 表单样式 */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 输入框样式 */
+       .input-container {
+            position: relative;
+            width: 88%;
+            margin-bottom: 30px;
+        }
+
+       .input-container input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #009688;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+       .input-container input:focus {
+            border-color: #00796b;
+            box-shadow: 0 0 5px rgba(0, 150, 136, 0.6);
+        }
+
+       .input-container.underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #009688;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+       .input-container input:focus +.underline {
+            transform: scaleX(1);
+        }
+
+        /* 按钮样式 */
+       .btn {
+            width: 100%;
+            padding: 12px 15px;
+            background: linear-gradient(45deg, #009688, #00796b);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-align: center;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+       .btn:hover {
+            background: linear-gradient(45deg, #00796b, #005b4f);
+        }
+
+        /* 提示和示例样式 */
+       .tips,
+       .example {
+            color: #777;
+            width: 100%;
+            padding-left: 20px;
+            box-sizing: border-box;
+            margin-top: 15px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+       .tips p:first-child:before,
+       .example p:first-child:before {
+            content: attr(data - prefix);
+            color: #777;
+            margin-right: 5px;
+        }
+
+       .example p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* 使文字在框内垂直居中 */
+       .input-container input,
+       .btn {
+            display: flex;
+            align-items: center;
+        }
+
+        /* 调整下载按钮的颜色 */
+
+    </style>
+</head>
+<body>
+    <h1>GitHub 文件加速</h1>
+    <form action="./" method="get" style="padding - bottom: 40px" target="_blank">
+        <div class="input-container">
+            <input type="text" placeholder="键入 Github 文件链接" />
+            <div class="underline"></div>
+        </div>
+        <input class="btn" type="button" value="下载" onclick="toSubmit()" />
+        <div class="tips" data - prefix="PS：">
+            <p>GitHub 文件链接带不带协议头都可以，支持 release、archive 以及文件，右键复制出来的链接都是符合标准的</p>
+            <p>release、archive 使用 cf 加速，文件会跳转至 JsDelivr</p>
+            <p>注意，不支持项目文件夹</p>
+        </div>
+        <div class="example" data - prefix="合法输入示例：">
+            <p>例如1：https://github.com/ac/project/archive/master.zip</p>
+            <p>例如2：https://github.com/ac/project/archive/v0.1.0.tar.gz</p>
+            <p>例如3：https://github.com/ac/project/releases/download/v0.1.0/example.zip</p>
+            <p>例如4：https://github.com/ac/project/blob/master/filename</p>
+        </div>
+    </form>
+    <p style="position: sticky;top: calc(100% - 2.5em);"><a style="color: #3294ea" href="https://icp.gov.moe/?keyword=20242045">萌ICP备20242045号</a>
+    </p>
+
+    <!--button onclick="document.getElementById('myAudio').play()">播放音乐</button>
+    <audio id="myAudio" loop>
+    <source src="The Most High Heaven.mp3" type="audio/mpeg">
+    </audio-->
+
+    <script>
+        function toSubmit() {
+            let inputLink = document.querySelector('input[type="text"]').value;
+            if (!inputLink.startsWith('http')) {
+                inputLink = 'http://' + inputLink;
+            }
+            let newLink = 'https://gh.cdn.js.luzmc.us.kg/' + inputLink.split('://')[1];
+            window.open(newLink);
+        }
+
+        async function setRandomBackground() {
+            // 使用相对路径引用本地图片
+            const imgUrl = 'https://tc.alcy.cc/i/2024/04/21/6624167f7efc5.webp';
+            document.body.style.backgroundImage = `url(${imgUrl})`;
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundRepeat = 'no - repeat';
+        }
+        window.addEventListener('load', setRandomBackground);
+    </script>
+</body>
+</html>
